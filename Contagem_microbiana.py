@@ -95,16 +95,17 @@ if df is not None:
     ]
 
     with tab_micro:
-        st.subheader("Crescimento Microbiano")
+        st.subheader("Crescimento Microbiano, pH e Acidez ao Longo do Tempo")
 
         fig_meso = px.line(
             df_filtered,
             x='Dias_Armazenamento',
             y='Contagem_Mesofila',
             color='Temperatura_Armazenamento',
-            markers=True
+            markers=True,
+            title="Crescimento de Microrganismos Mesófilos"
         )
-        fig_meso.add_hline(y=6, line_dash="dash", line_color="red")
+        fig_meso.add_hline(y=6, line_dash="dash")
         st.plotly_chart(fig_meso, use_container_width=True)
 
         fig_psicro = px.line(
@@ -112,10 +113,31 @@ if df is not None:
             x='Dias_Armazenamento',
             y='Contagem_Psicrofila',
             color='Temperatura_Armazenamento',
-            markers=True
+            markers=True,
+            title="Crescimento de Microrganismos Psicrófilos"
         )
-        fig_psicro.add_hline(y=5, line_dash="dash", line_color="red")
+        fig_psicro.add_hline(y=5, line_dash="dash")
         st.plotly_chart(fig_psicro, use_container_width=True)
+
+        fig_ph = px.line(
+            df_filtered,
+            x='Dias_Armazenamento',
+            y='pH',
+            color='Temperatura_Armazenamento',
+            markers=True,
+            title="Variação do pH ao Longo do Tempo"
+        )
+        st.plotly_chart(fig_ph, use_container_width=True)
+
+        fig_acidez = px.line(
+            df_filtered,
+            x='Dias_Armazenamento',
+            y='Acidez_Titravel',
+            color='Temperatura_Armazenamento',
+            markers=True,
+            title="Variação da Acidez ao Longo do Tempo"
+        )
+        st.plotly_chart(fig_acidez, use_container_width=True)
 
     with tab_media:
         media = df_filtered[variaveis].mean()
